@@ -1,15 +1,18 @@
-import {Router} from 'express';
-import {getClientes, getclientesxid, postCliente, putCliente, patchCliente, deleteCliente} from '../controladores/clientesCtrl.js';
+import {Router} from 'express'
+import {getClientes,
+    getclientesxid,
+    postCliente,
+    putCliente,
+    patchCliente,
+    deleteCliente} from '../controladores/clientesCtrl.js'
+const router=Router()
+// armar nuestras rutas
 
-const router = Router();
+router.get('/clientes',getClientes) //select
+router.get('/clientes/:id',getclientesxid)//select x id
+router.post('/clientes',postCliente) //insert
+router.put('/clientes/:id',putCliente)//update
+router.patch('/clientes/:id',patchCliente)//update
+router.delete('/clientes/:id',deleteCliente)//delete
 
-// Armar nuestras rutas
-
-router.get('/clientes', getClientes); // Select
-router.get('/clientes/:id', getclientesxid); // Select por id
-router.post('/clientes', postCliente); // Insertar
-router.put('/clientes/:id', putCliente); // Update completo
-router.patch('/clientes/:id', patchCliente); // Update parcial
-router.delete('/clientes/:id', deleteCliente); // Eliminar
-
-export default router;
+export default router

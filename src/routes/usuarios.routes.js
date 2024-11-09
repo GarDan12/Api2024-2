@@ -1,15 +1,12 @@
-import { Router } from 'express';
-import { getUsuarios, getusuariosxid, postUsuario, putUsuario, patchUsuario, deleteUsuario, loginUsuario } from '../controladores/usuarios.Ctrl.js';
-import { verifyToken } from '../middlewares/authMiddleware.js';
+import {Router} from 'express'
+import	{getUsuarios,getUsarioxid,postUsuarios,putUsuarios,patchUsuarios,deleteUsuarios} from '../controladores/usuarios.Ctrl.js'
 
-const router = Router();
+const router=Router()
 
-router.get('/usuarios',verifyToken, getUsuarios); 
-router.get('/usuarios/:id',verifyToken, getusuariosxid); 
-router.post('/usuarios', verifyToken,postUsuario); 
-router.put('/usuarios/:id',verifyToken, putUsuario); 
-router.patch('/usuarios/:id',verifyToken, patchUsuario); 
-router.delete('/usuarios,/:id',verifyToken, deleteUsuario); 
-router.post('/usuarios/login',loginUsuario);
-
-export default router;
+router.get('/usuarios',getUsuarios) //select
+router.get('/usuarios/:id',getUsarioxid) //select
+router.post('/usuarios',postUsuarios)
+router.put('/usuarios/:id',putUsuarios)
+router.patch('/usuarios/:id',patchUsuarios)
+router.delete('/usuarios/:id',deleteUsuarios)
+export default router

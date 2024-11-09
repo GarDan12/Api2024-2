@@ -1,30 +1,26 @@
-import {Router} from 'express';
+import {Router} from 'express'
 import multer from 'multer';
-import {getProductos, getproductosxid, postProducto, putProducto, patchProducto, deleteProducto} from '../controladores/productos.Ctrl.js';
+import {getProductos,getProductosxid,postProductos,putProductos,patchProducto,deleteProductos} from '../controladores/productosCtrl.js'
 
 //configurar multer para almacenar las imagenes
-const router = Router();
-
-// Configure multer storage
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads');
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
+const storage=multer.diskStorage({
+destination:(req,file,cb)=>{
+    cb(null,'uploads');//carpeta donde se guardan las imagenes
+},
+filename:(req,file,cb)=>{
+    cb(null, `${Date.now()}-${file.originalname}`);
+}
 });
 
-const upload = multer({ storage }); // Initialize multer with storage configuration
+const upload=multer({storage});
+const router=Router()
+//rutas
+router.get('/productos',getProductos)
+router.get('/productos/:id',getProductosxid)
+router.post('/productos',upload.single('image'),postProductos)
+router.put('/productos/:id',putProductos)
+router.patch('/productos/:id',patchProducto)
+router.delete('/productos/:id',deleteProductos)
 
-// Armar nuestras rutas
-
-router.get('/productos', getProductos); // Select
-router.get('/productos/:id', getproductosxid);
-router.get('/productos', upload.single('image',postProducto)); // Select // Select por id
-router.post('/productos', postProducto); // Insertar
-router.put('/productos/:id', putProducto); // Update completo
-router.patch('/productos/:id', patchProducto); // Update parcial
-router.delete('/productos/:id', deleteProducto); // Eliminar
-
-export default router;
+//exportamos las rutas
+export default router
