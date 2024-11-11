@@ -9,7 +9,7 @@ import pedidos_detalleRoutes from './routes/pedidos_detalle.routes.js';
 import pedidosRoutes from './routes/pedidos.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
-const _dirname = path.dirname(_filename);
+const __dirname = path.dirname(__filename);
 const app = express();
 
 const corsOptions = { 
