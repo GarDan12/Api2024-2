@@ -33,7 +33,8 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use('/api', clientesRoutes);
 app.use('/api', usuariosRoutes);
 app.use('/api', productosRoutes);
-
+app.use('/api', pedidos_detalleRoutes);
+app.use('/api', pedidosRoutes);
 
 
 
