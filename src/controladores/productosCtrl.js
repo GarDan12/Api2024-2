@@ -28,30 +28,23 @@ export const getProductosxid =
 //función que crea un nuevo cliente
 export const postProductos = async (req, res) => {
     try {
-        const { prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo } = req.body
-        const prod_imagen = req.file ? `/uploads/${req.file.filename}` : null;//capturar la imagenque se nvia desde un formulario
-        console.log("Datos del producto:", req.body);  // Verifica req.body
-        console.log("Archivo de imagen:", req.file);   // Verifica req.file
-        //validar que no se repita la código
-        const [fila] = await conmysql.query('Select * from productos where prod_codigo=?', [prod_codigo])
-        if (fila.length > 0) return res.status(404).json({
-            id: 0,
-            messge: 'Producto con código: ' + prod_codigo + ' ya está registrado'
-        })
-        //console.log('consulta:'+fila.length)
+        const { prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo } = req.body;
+        const prod_imagen = req.file ? `/uploads/${req.file.filename}` : null; // Ruta relativa
+        
+        // Verifica que el código no se repita
+        const [fila] = await conmysql.query('SELECT * FROM productos WHERE prod_codigo=?', [prod_codigo]);
+        if (fila.length > 0) return res.status(404).json({ message: `Producto con código ${prod_codigo} ya registrado` });
+        
+        // Inserta el nuevo producto en la base de datos
+        const [rows] = await conmysql.query(
+            'INSERT INTO productos (prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo, prod_imagen) VALUES(?,?,?,?,?,?)',
+            [prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo, prod_imagen]
+        );
 
-        const [rows] = await conmysql.query('INSERT INTO productos ( prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo, prod_imagen) VALUES(?,?,?,?,?,?)',
-            [prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo, prod_imagen])
-        ///console.log(req.body)
-        // res.send("insertar")
-        res.send({
-            id: rows.insertId,
-            messge: 'Producto registrado con éxito :)'
-        })
+        res.send({ id: rows.insertId, message: 'Producto registrado con éxito :)' });
     } catch (error) {
-        return res.status(500).json({ message: error })
+        return res.status(500).json({ message: error.message });
     }
-
 }
 
 export const putProductos = async (req, res) => {
